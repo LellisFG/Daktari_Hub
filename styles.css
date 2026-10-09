@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+:root{--teal:#0d9488;--teal-dark:#0f766e;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0}
+*{box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(20,184,166,.28);outline-offset:2px}
+.role-btn{display:flex;align-items:center;gap:.5rem;padding:.55rem .9rem;border-radius:.65rem;font-size:.8rem;font-weight:600;color:#64748b;transition:all .2s}
+.role-btn:hover{color:#0f172a}
+.role-btn.active{background:white;color:#0f766e;box-shadow:0 1px 3px #0f172a12}
+.hero-banner{background:linear-gradient(115deg,#0f766e 0%,#0d9488 52%,#0891b2 100%)}
+.panel{background:white;border:1px solid #e2e8f0;border-radius:1rem;box-shadow:0 2px 8px rgba(15,23,42,.025)}
+.panel-title{display:flex;align-items:center;gap:.6rem;color:#0f172a;font-size:1rem;font-weight:800}
+.tab-strip{display:flex;gap:1.5rem;overflow-x:auto;border-bottom:1px solid #e2e8f0}
+.patient-tab-btn{display:flex;align-items:center;gap:.5rem;white-space:nowrap;padding:.8rem .05rem;border-bottom:2px solid transparent;color:#64748b;font-size:.85rem;font-weight:600}
+.patient-tab-btn:hover{color:#0f172a}
+.patient-tab-btn.active{border-color:#0d9488;color:#0d9488}
+.field-label{display:block;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#475569;margin-bottom:.4rem}
+.field{display:block;width:100%;border:1px solid #cbd5e1;border-radius:.7rem;background:#f8fafc;padding:.65rem .8rem;font-size:.82rem;color:#1e293b;transition:border .2s,box-shadow .2s}
+.field:focus{outline:none;border-color:#14b8a6;box-shadow:0 0 0 3px #14b8a61a;background:#fff}
+.btn-primary,.btn-secondary,.btn-danger{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border-radius:.7rem;padding:.68rem 1rem;font-size:.82rem;font-weight:700;transition:all .2s}
+.btn-primary{background:#0d9488;color:white;box-shadow:0 3px 8px #0d948822}
+.btn-primary:hover{background:#0f766e;transform:translateY(-1px)}
+.btn-secondary{background:#f1f5f9;color:#334155;border:1px solid #e2e8f0}
+.btn-secondary:hover{background:#e2e8f0}
+.btn-danger{background:#fff1f2;color:#be123c;border:1px solid #ffe4e6}
+.btn-danger:hover{background:#ffe4e6}
+.count-pill{background:#f0fdfa;color:#0f766e;border:1px solid #ccfbf1;border-radius:999px;padding:.28rem .65rem;font-size:.7rem;font-weight:800;white-space:nowrap}
+.tag{display:inline-flex;align-items:center;border-radius:999px;padding:.25rem .55rem;font-size:.68rem;font-weight:800;white-space:nowrap}
+.tag-teal{background:#ccfbf1;color:#115e59}
+.tag-blue{background:#dbeafe;color:#1d4ed8}
+.tag-amber{background:#fef3c7;color:#92400e}
+.tag-red{background:#ffe4e6;color:#9f1239}
+.tag-slate{background:#f1f5f9;color:#475569}
+.doctor-card,.medicine-card,.appointment-card,.queue-card{border:1px solid #e2e8f0;border-radius:.9rem;padding:1rem;background:white;transition:box-shadow .2s,border-color .2s}
+.doctor-card:hover,.medicine-card:hover{border-color:#99f6e4;box-shadow:0 8px 24px #0f766e0c}
+.doctor-avatar{width:2.8rem;height:2.8rem;border-radius:.85rem;display:flex;align-items:center;justify-content:center;background:#ccfbf1;color:#0f766e;font-weight:800}
+.mini-label{font-size:.68rem;color:#64748b;font-weight:700}
+.stat-card{position:relative;background:white;border:1px solid #e2e8f0;border-radius:1rem;padding:1.2rem;box-shadow:0 2px 8px #0f172a05}
+.stat-icon{width:2.5rem;height:2.5rem;display:flex;align-items:center;justify-content:center;border-radius:.8rem;margin-bottom:1rem}
+.stat-label{font-size:.75rem;font-weight:700;color:#64748b}
+.stat-value{font-size:2rem;font-weight:800;color:#0f172a;line-height:1.25;margin:.25rem 0}
+.stat-foot{font-size:.68rem;color:#94a3b8}
+.progress-track{height:.55rem;background:#f1f5f9;border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#14b8a6,#0891b2);transition:width .35s}
+.data-table th{font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#64748b;font-weight:800;padding:.8rem .75rem;background:#f8fafc;border-bottom:1px solid #e2e8f0;white-space:nowrap}
+.data-table td{font-size:.78rem;color:#475569;padding:.8rem .75rem;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+.data-table tr:last-child td{border-bottom:0}
+.custom-scrollbar::-webkit-scrollbar{width:6px;height:6px}
+.custom-scrollbar::-webkit-scrollbar-track{background:#f1f5f9}
+.custom-scrollbar::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:4px}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover{background:#94a3b8}
+.toast-region{position:fixed;right:1rem;bottom:1rem;z-index:60;display:grid;gap:.5rem;max-width:min(24rem,calc(100vw - 2rem))}
+.toast{background:#0f172a;color:white;padding:.85rem 1rem;border-radius:.8rem;box-shadow:0 10px 30px #0f172a30;font-size:.82rem;animation:toast-in .2s ease-out}
+.toast.error{background:#9f1239}
+.empty-state{text-align:center;padding:2.5rem 1rem;color:#94a3b8}
+.empty-state i{font-size:1.8rem;margin-bottom:.8rem;color:#cbd5e1}
+@keyframes toast-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:640px){.role-btn{padding:.5rem .65rem;font-size:.72rem}.role-btn span{display:inline}.panel-title{font-size:.93rem}.tab-strip{gap:1.1rem}.data-table th,.data-table td{padding:.7rem .6rem}}
+
+/* Enforce portal/session hiding even when component styles define display values. */
+.role-btn.hidden,.portal.hidden{display:none!important}

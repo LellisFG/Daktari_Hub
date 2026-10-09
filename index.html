@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d9488">
+  <title>Daktari Hub - Integrated Hospital Management System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen">
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col xl:flex-row xl:justify-between xl:items-center gap-4 py-3">
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-600 to-cyan-500 flex items-center justify-center text-white shadow-md"><i class="fa-solid fa-heart-pulse text-xl"></i></div>
+            <div><h1 class="font-extrabold text-slate-900 text-lg leading-tight">Daktari Hub</h1><p class="text-xs text-slate-500 font-medium">Integrated Hospital Management</p></div>
+          </div>
+          <div class="hidden">
+            <span id="user-avatar-mobile" class="w-9 h-9 rounded-full bg-teal-100 text-teal-700 font-bold flex items-center justify-center text-xs">SJ</span>
+          </div>
+        </div>
+        <nav class="bg-slate-100 p-1 rounded-xl flex flex-wrap gap-1 border border-slate-200" aria-label="Portal selection">
+          <button data-role="patient" class="role-btn active"><i class="fa-solid fa-user-injured"></i><span>Patient Portal</span></button>
+          <button data-role="doctor" class="role-btn"><i class="fa-solid fa-user-doctor"></i><span>Doctor Portal</span></button>
+          <button data-role="supervisor" class="role-btn"><i class="fa-solid fa-chart-line"></i><span>Supervisor Dashboard</span></button>
+          <button data-role="pharmacy" class="role-btn"><i class="fa-solid fa-prescription-bottle-medical"></i><span>Pharmacy Portal</span></button>
+        </nav>
+        <div class="flex items-center gap-3">
+          <div class="text-right"><div id="user-display-name" class="text-sm font-bold text-slate-800">Sarah Jenkins</div><div id="user-display-role" class="text-xs text-teal-600 font-medium">Patient View</div></div>
+          <div id="user-avatar" class="w-10 h-10 rounded-full bg-teal-100 text-teal-700 border border-teal-200 font-bold flex items-center justify-center text-sm">SJ</div><button id="staff-logout" class="btn-secondary text-xs" type="button">Switch Portal / Log out</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div id="staff-login-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/60 p-4" role="dialog" aria-modal="true" aria-labelledby="staff-login-title">
+    <div class="panel w-full max-w-md p-6 sm:p-8 space-y-5 shadow-2xl">
+      <div class="flex items-start justify-between gap-4"><div><div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-700 flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-shield-halved"></i></div><h2 id="staff-login-title" class="text-2xl font-extrabold text-slate-900">Staff login</h2><p id="staff-login-description" class="text-sm text-slate-500 mt-1">Sign in to access the staff portal.</p></div><button id="staff-login-close" class="btn-secondary" type="button" aria-label="Close login"><i class="fa-solid fa-xmark"></i></button></div>
+      <form id="staff-login-form" class="space-y-4"><input type="hidden" id="staff-login-role"><div><label for="staff-username" class="field-label">Username</label><input id="staff-username" class="field" required autocomplete="username"></div><div><label for="staff-password" class="field-label">Password</label><input id="staff-password" class="field" type="password" required autocomplete="current-password"></div><p id="staff-login-error" class="hidden text-sm text-rose-600" role="alert"></p><button class="btn-primary w-full" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Sign in</button></form>
+      <div class="text-xs bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-600"><strong>Demo access</strong><br>Supervisor: <code>supervisor</code> / <code>Admin123!</code><br>Doctor: <code>robert</code> / <code>Doctor123!</code><br>Pharmacy: <code>pharmacy</code> / <code>Pharmacy123!</code><br>Change these before any real deployment. This demo login is not production security.</div>
+    </div>
+  </div>
+
+  <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <!-- Patient portal -->
+    <section id="view-patient" class="portal space-y-6">
+      <div class="hero-banner rounded-2xl p-6 sm:p-8 text-white shadow-lg relative overflow-hidden">
+        <div class="absolute -right-5 -bottom-10 opacity-10 text-white"><i class="fa-solid fa-hospital text-9xl"></i></div>
+        <div class="relative z-10 max-w-2xl"><span class="bg-white/15 text-teal-50 text-xs px-3 py-1 rounded-full font-semibold border border-white/20">Patient Hub</span><h2 class="text-2xl sm:text-3xl font-extrabold mt-3">Welcome to Daktari Hub!</h2><p class="text-teal-50 text-sm mt-2">Book consultations, keep track of appointments, find specialists, and view a prescription report using the serial provided by your doctor.</p></div>
+      </div>
+      <div class="tab-strip">
+        <button class="patient-tab-btn active" data-ptab="appointments"><i class="fa-solid fa-calendar-check"></i> Book & My Appointments</button>
+        <button class="patient-tab-btn" data-ptab="details"><i class="fa-solid fa-id-card"></i> Patient Details</button>
+        <button class="patient-tab-btn" data-ptab="doctors"><i class="fa-solid fa-user-doctor"></i> Doctor Directory</button>
+        <button class="patient-tab-btn" data-ptab="report"><i class="fa-solid fa-file-invoice-dollar"></i> Prescription Report</button>
+      </div>
+
+      <div id="patient-tab-details" class="patient-tab-content hidden grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="panel p-5 sm:p-6 lg:col-span-2 space-y-4">
+          <h3 class="panel-title"><i class="fa-solid fa-user-plus text-teal-600"></i> Patient Registration</h3>
+          <p class="text-sm text-slate-500">Create a demo patient profile before booking an appointment.</p>
+          <form id="patient-form" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div><label class="field-label" for="patient-full-name">Full name</label><input class="field" id="patient-full-name" required maxlength="100" placeholder="Enter full name"></div>
+            <div><label class="field-label" for="patient-age">Age</label><input class="field" id="patient-age" required type="number" min="0" max="120" placeholder="Age"></div>
+            <div><label class="field-label" for="patient-gender">Gender</label><select class="field" id="patient-gender" required><option value="">Select gender</option><option>Female</option><option>Male</option><option>Prefer not to say</option></select></div>
+            <div><label class="field-label" for="patient-phone">Phone number</label><input class="field" id="patient-phone" required type="tel" maxlength="30" placeholder="Phone number"></div>
+            <div><label class="field-label" for="patient-email">Email (optional)</label><input class="field" id="patient-email" type="email" maxlength="120" placeholder="Email address"></div>
+            <div><label class="field-label" for="patient-blood-group">Blood group (optional)</label><select class="field" id="patient-blood-group"><option value="">Not specified</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
+            <div class="sm:col-span-2"><label class="field-label" for="patient-address">Address / town (optional)</label><input class="field" id="patient-address" maxlength="160" placeholder="Town or address"></div>
+            <div class="sm:col-span-2"><button class="btn-primary" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save Patient Details</button></div>
+          </form>
+          <p class="text-xs text-amber-700 bg-amber-50 border border-amber-100 p-3 rounded-lg">Demo only: use fictional details. This browser-based prototype is not secure enough for real patient records.</p>
+        </div>
+        <div class="panel p-5 space-y-3"><h3 class="panel-title"><i class="fa-solid fa-lock text-teal-600"></i> Your privacy</h3><p class="text-sm text-slate-600">Patient records are not shown as a public list. Enter your own details when booking. Only appointments linked to your current patient session are shown here.</p></div>
+      </div>
+
+      <div id="patient-tab-appointments" class="patient-tab-content grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="panel p-5 sm:p-6 space-y-4">
+          <h3 class="panel-title"><i class="fa-regular fa-calendar-plus text-teal-600"></i> Book New Consultation</h3>
+          <form id="booking-form" class="space-y-4">
+            <div class="rounded-xl bg-teal-50 border border-teal-100 p-3"><p class="font-bold text-teal-900 text-sm"><i class="fa-solid fa-user-pen mr-1"></i> Patient details</p><p class="text-xs text-teal-800 mt-1">Enter your details directly. No patient list is used for booking.</p></div>
+            <div><label for="book-patient-name" class="field-label">Full name</label><input id="book-patient-name" class="field" required maxlength="100" placeholder="Your full name"></div>
+            <div class="grid grid-cols-2 gap-3"><div><label for="book-patient-age" class="field-label">Age</label><input id="book-patient-age" type="number" min="0" max="120" class="field" required placeholder="Age"></div><div><label for="book-patient-gender" class="field-label">Gender</label><select id="book-patient-gender" class="field" required><option value="">Select</option><option>Female</option><option>Male</option><option>Prefer not to say</option></select></div></div>
+            <div><label for="book-patient-phone" class="field-label">Phone number</label><input id="book-patient-phone" type="tel" maxlength="30" class="field" required placeholder="Your phone number"></div>
+            <div><label for="book-patient-email" class="field-label">Email (optional)</label><input id="book-patient-email" type="email" maxlength="120" class="field" placeholder="Email address"></div>
+            <div><label for="book-department" class="field-label">Department</label><select id="book-department" class="field"><option value="All">All Departments</option><option>Cardiology</option><option>Neurology</option><option>Pediatrics</option><option>General Medicine</option><option>Orthopedics</option></select></div>
+            <div><label for="book-doctor" class="field-label">Select Doctor</label><select id="book-doctor" class="field" required></select></div>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label for="book-date" class="field-label">Date</label><input type="date" id="book-date" class="field" required></div>
+              <div><label for="book-time" class="field-label">Time Slot</label><select id="book-time" class="field" required><option>09:00 AM</option><option>10:30 AM</option><option>02:00 PM</option><option>04:00 PM</option></select></div>
+            </div>
+            <div><label for="book-symptoms" class="field-label">Symptoms / Notes</label><textarea id="book-symptoms" rows="3" class="field resize-y" required maxlength="500" placeholder="Describe the reason for your visit..."></textarea></div>
+            <button type="submit" class="btn-primary w-full"><i class="fa-solid fa-check-circle"></i> Confirm Booking</button>
+            <p class="text-xs text-slate-500">Your details are saved with this booking. Use fictional details in this demo.</p>
+          </form>
+        </div>
+        <div class="panel p-5 sm:p-6 lg:col-span-2 space-y-4">
+          <div class="flex justify-between items-center gap-3 border-b border-slate-100 pb-3"><h3 class="panel-title"><i class="fa-solid fa-clock-rotate-left text-teal-600"></i> My Appointments & History</h3><span id="patient-appointment-count" class="count-pill">0 total</span></div>
+          <div id="patient-appointments-list" class="space-y-3 custom-scrollbar max-h-[560px] overflow-y-auto pr-1"></div>
+        </div>
+      </div>
+
+      <div id="patient-tab-doctors" class="patient-tab-content hidden space-y-4">
+        <div class="panel p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <div class="relative w-full sm:max-w-sm"><i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i><input id="doctor-search" class="field pl-10" placeholder="Search doctor or specialty..." type="search"></div>
+          <div class="flex items-center gap-2 w-full sm:w-auto"><label for="doctor-dept-filter" class="text-xs font-bold text-slate-500 uppercase">Department</label><select id="doctor-dept-filter" class="field sm:w-52"><option value="All">All Departments</option><option>Cardiology</option><option>Neurology</option><option>Pediatrics</option><option>General Medicine</option><option>Orthopedics</option></select></div>
+        </div>
+        <div id="doctor-directory-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      </div>
+
+      <div id="patient-tab-report" class="patient-tab-content hidden space-y-4">
+        <div class="panel p-5 sm:p-6 max-w-3xl space-y-4">
+          <h3 class="panel-title"><i class="fa-solid fa-file-invoice-dollar text-teal-600"></i> View Prescription & Medication Report</h3>
+          <p class="text-sm text-slate-500">Enter the pharmacy serial number provided by your doctor to view the prescribed medicines and estimated total price.</p>
+          <form id="patient-report-form" class="flex flex-col sm:flex-row gap-3"><input id="patient-report-serial" class="field" required maxlength="30" placeholder="e.g. PH-20261009-A1B2C3"><button class="btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i> View Report</button></form>
+          <div id="patient-report-result" class="hidden"></div>
+          <p class="text-xs text-amber-700 bg-amber-50 border border-amber-100 p-3 rounded-lg">The serial report is a demo feature. It is not a substitute for an official pharmacy receipt or clinical advice.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Doctor portal -->
+    <section id="view-doctor" class="portal hidden space-y-6">
+      <div class="panel p-5 sm:p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div class="flex items-center gap-4">
+          <img id="doctor-profile-img" src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=200" alt="Doctor profile" class="w-16 h-16 rounded-2xl object-cover border-2 border-teal-500">
+          <div><div class="flex flex-wrap items-center gap-2"><h2 id="doctor-active-name" class="text-xl font-extrabold text-slate-900">Dr. Robert Chen, MD</h2><span id="doctor-department-badge" class="tag tag-teal">Cardiology</span></div><p id="doctor-license" class="text-xs text-slate-500 mt-1">License #MED-884920 · Senior Consultant</p></div>
+        </div>
+        <div class="flex items-center gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200 w-full md:w-auto justify-between">
+          <div><div class="text-xs font-bold text-slate-500 uppercase">Current Status</div><div id="doctor-status-text" class="text-sm font-bold text-teal-700">Available</div></div>
+          <select id="doctor-status-select" class="field !w-auto min-w-36"><option>Available</option><option>In Surgery</option><option>On Leave</option><option>Busy</option></select>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="panel p-5 lg:col-span-5 space-y-4">
+          <div class="flex justify-between items-center border-b border-slate-100 pb-3"><h3 class="panel-title"><i class="fa-solid fa-list-check text-teal-600"></i> My Patient Schedule</h3><span id="doctor-queue-count" class="count-pill">0 scheduled</span></div>
+          <div id="doctor-schedule-list" class="space-y-3 custom-scrollbar max-h-[650px] overflow-y-auto pr-1"></div>
+        </div>
+        <div class="panel p-5 sm:p-6 lg:col-span-7 space-y-5">
+          <div id="consultation-empty-state" class="py-16 text-center text-slate-400"><i class="fa-solid fa-notes-medical text-5xl mb-3 text-slate-300"></i><p class="font-bold text-slate-700">No Patient Selected</p><p class="text-xs mt-1">Select an appointment on the left to review its demo consultation record.</p></div>
+          <div id="consultation-active-panel" class="hidden space-y-5">
+            <div class="bg-teal-50 border border-teal-100 p-4 rounded-xl flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+              <div><span class="text-xs text-teal-700 font-bold uppercase">Active Patient</span><h3 id="consultation-patient-name" class="text-lg font-extrabold text-slate-900 mt-1">Patient</h3><p id="consultation-appointment-meta" class="text-xs text-slate-600 mt-1"></p></div>
+              <span id="consultation-status" class="tag tag-teal">Scheduled</span>
+            </div>
+            <div><h4 class="font-bold text-slate-800 mb-2">Reported Symptoms / Notes</h4><p id="consultation-symptoms" class="text-sm text-slate-600 bg-slate-50 rounded-xl p-4"></p></div>
+            <form id="consultation-form" class="space-y-4">
+              <input type="hidden" id="consultation-appointment-id">
+              <div><label for="consultation-notes" class="field-label">Consultation Notes (demo)</label><textarea id="consultation-notes" class="field" rows="4" maxlength="2000" placeholder="Add a summary of the consultation..."></textarea></div>
+              <div class="border border-slate-200 rounded-xl p-4 space-y-3">
+                <div><h4 class="font-extrabold text-slate-900"><i class="fa-solid fa-vial text-teal-600 mr-2"></i>Diagnostic Tests</h4><p class="text-xs text-slate-500 mt-1">Select tests to request. Availability times are sample schedule estimates.</p></div>
+                <div id="doctor-test-options" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+              </div>
+              <div class="border border-slate-200 rounded-xl p-4 space-y-3">
+                <div><h4 class="font-extrabold text-slate-900"><i class="fa-solid fa-pills text-teal-600 mr-2"></i>Medicine & Prescription</h4><p class="text-xs text-slate-500 mt-1">Choose medicines from pharmacy stock, quantity, and directions.</p></div>
+                <div id="doctor-medicine-options" class="space-y-2"></div>
+                <div><label for="consultation-prescription" class="field-label">Additional prescription notes</label><textarea id="consultation-prescription" class="field" rows="2" maxlength="1000" placeholder="Additional instructions or clinical notes..."></textarea></div>
+                <div id="prescription-serial-panel" class="hidden rounded-lg bg-teal-50 border border-teal-100 p-3 text-sm"></div>
+              </div>
+              <div class="flex flex-wrap gap-2"><button class="btn-primary" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save Notes</button><button class="btn-secondary" type="button" id="mark-completed-btn"><i class="fa-solid fa-check"></i> Mark Completed</button></div>
+            </form>
+            <p class="text-xs text-amber-700 bg-amber-50 border border-amber-100 p-3 rounded-lg"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Do not enter real patient-identifiable or clinical information. This is a front-end demonstration, not a clinical record system.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Supervisor portal -->
+    <section id="view-supervisor" class="portal hidden space-y-6">
+      <div class="hero-banner rounded-2xl p-6 sm:p-8 text-white shadow-lg relative overflow-hidden">
+        <div class="absolute -right-4 -bottom-8 opacity-10"><i class="fa-solid fa-chart-pie text-9xl"></i></div>
+        <div class="relative z-10"><span class="bg-white/15 text-xs px-3 py-1 rounded-full border border-white/20">Operations Overview</span><h2 class="text-2xl sm:text-3xl font-extrabold mt-3">Supervisor Dashboard</h2><p class="text-teal-50 text-sm mt-2">A quick overview of appointment activity, staffing availability, and demo pharmacy stock.</p></div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <div class="stat-card"><div class="stat-icon bg-teal-50 text-teal-700"><i class="fa-solid fa-calendar-check"></i></div><p class="stat-label">Total Appointments</p><p id="stat-total" class="stat-value">0</p><p class="stat-foot">All appointment records</p></div>
+        <div class="stat-card"><div class="stat-icon bg-blue-50 text-blue-700"><i class="fa-solid fa-calendar-day"></i></div><p class="stat-label">Scheduled</p><p id="stat-scheduled" class="stat-value">0</p><p class="stat-foot">Awaiting consultation</p></div>
+        <div class="stat-card"><div class="stat-icon bg-emerald-50 text-emerald-700"><i class="fa-solid fa-user-doctor"></i></div><p class="stat-label">Doctors Available</p><p id="stat-doctors" class="stat-value">0</p><p class="stat-foot">Current demo status</p></div>
+        <div class="stat-card"><div class="stat-icon bg-amber-50 text-amber-700"><i class="fa-solid fa-boxes-stacked"></i></div><p class="stat-label">Low-stock Items</p><p id="stat-low-stock" class="stat-value">0</p><p class="stat-foot">At or below reorder level</p></div>
+      </div>
+      <div class="grid grid-cols-1 xl:grid-cols-5 gap-6">
+        <div class="panel p-5 xl:col-span-3">
+          <div class="flex flex-wrap justify-between items-center gap-3 mb-4"><h3 class="panel-title"><i class="fa-solid fa-chart-column text-teal-600"></i> Appointment Status</h3><span class="text-xs text-slate-500">Current records</span></div>
+          <div id="status-chart" class="space-y-4"></div>
+        </div>
+        <div class="panel p-5 xl:col-span-2">
+          <h3 class="panel-title mb-4"><i class="fa-solid fa-user-doctor text-teal-600"></i> Doctor Availability</h3>
+          <div id="supervisor-doctor-list" class="space-y-3"></div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <div class="panel p-5 sm:p-6 space-y-4">
+          <h3 class="panel-title"><i class="fa-solid fa-user-doctor text-teal-600"></i> Enroll New Doctor</h3>
+          <form id="doctor-enroll-form" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div><label class="field-label" for="new-doctor-name">Full name / title</label><input id="new-doctor-name" class="field" required maxlength="100" placeholder="Dr. Jane Doe"></div>
+            <div><label class="field-label" for="new-doctor-department">Department</label><select id="new-doctor-department" class="field" required><option>Cardiology</option><option>Neurology</option><option>Pediatrics</option><option>General Medicine</option><option>Orthopedics</option><option>Dermatology</option><option>Dental</option><option>Other</option></select></div>
+            <div><label class="field-label" for="new-doctor-license">License / registration ID</label><input id="new-doctor-license" class="field" required maxlength="60" placeholder="Registration ID"></div>
+            <div><label class="field-label" for="new-doctor-experience">Experience</label><input id="new-doctor-experience" class="field" required maxlength="40" placeholder="e.g. 5 years"></div>
+            <div><label class="field-label" for="new-doctor-username">Login username</label><input id="new-doctor-username" class="field" required minlength="3" maxlength="40" autocomplete="off"></div>
+            <div><label class="field-label" for="new-doctor-password">Temporary password</label><input id="new-doctor-password" class="field" required minlength="6" type="password" autocomplete="new-password"></div>
+            <div class="sm:col-span-2"><label class="field-label" for="new-doctor-bio">Specialty / profile summary</label><textarea id="new-doctor-bio" class="field" rows="2" maxlength="300" placeholder="Short professional summary"></textarea></div>
+            <div class="sm:col-span-2"><button class="btn-primary" type="submit"><i class="fa-solid fa-user-plus"></i> Enroll Doctor</button></div>
+          </form>
+          <div><h4 class="font-bold text-slate-800 mb-2">Enrolled staff</h4><div id="enrolled-doctor-list" class="space-y-2"></div></div>
+        </div>
+        <div class="panel p-5 sm:p-6 space-y-4">
+          <h3 class="panel-title"><i class="fa-solid fa-boxes-stacked text-teal-600"></i> Add Pharmacy Stock</h3>
+          <form id="stock-form" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div><label class="field-label" for="stock-name">Item / medicine name</label><input id="stock-name" class="field" required maxlength="100" placeholder="Item name"></div>
+            <div><label class="field-label" for="stock-category">Category</label><input id="stock-category" class="field" required maxlength="60" placeholder="e.g. First aid"></div>
+            <div><label class="field-label" for="stock-quantity">Quantity to add</label><input id="stock-quantity" class="field" required type="number" min="1" max="1000000"></div>
+            <div><label class="field-label" for="stock-unit">Unit</label><input id="stock-unit" class="field" required maxlength="30" placeholder="packs, boxes, units"></div>
+            <div><label class="field-label" for="stock-reorder">Low-stock threshold</label><input id="stock-reorder" class="field" required type="number" min="0" value="10"></div>
+            <div><label class="field-label" for="stock-price">Unit price (KES, optional)</label><input id="stock-price" class="field" type="number" min="0" step="0.01" value="0"></div>
+            <div class="sm:col-span-2"><label class="field-label" for="stock-usage">Description / use</label><input id="stock-usage" class="field" maxlength="180" placeholder="Short description"></div>
+            <div class="sm:col-span-2"><button class="btn-primary" type="submit"><i class="fa-solid fa-boxes-stacked"></i> Add Stock</button></div>
+          </form>
+          <div><h4 class="font-bold text-slate-800 mb-2">Current stock</h4><div id="stock-management-list" class="space-y-2 max-h-64 overflow-y-auto"></div></div>
+        </div>
+      </div>
+
+      <div class="panel p-5">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-4"><h3 class="panel-title"><i class="fa-solid fa-calendar-days text-teal-600"></i> Appointment Register</h3><input id="supervisor-search" type="search" class="field sm:max-w-xs" placeholder="Search patient, doctor, department..."></div>
+        <div class="overflow-x-auto custom-scrollbar"><table class="data-table w-full text-left"><thead><tr><th>Patient</th><th>Doctor</th><th>Department</th><th>Date & Time</th><th>Status</th><th>Action</th></tr></thead><tbody id="supervisor-appointments-body"></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- Separate pharmacy portal -->
+    <section id="view-pharmacy" class="portal hidden space-y-6">
+      <div class="hero-banner rounded-2xl p-6 sm:p-8 text-white shadow-lg"><span class="bg-white/15 text-xs px-3 py-1 rounded-full border border-white/20">Medication Services</span><h2 class="text-2xl sm:text-3xl font-extrabold mt-3">Pharmacy Portal</h2><p class="text-teal-50 text-sm mt-2">Review prescription serials, check medication totals, and browse current pharmacy stock.</p></div>
+      <div class="panel p-5 sm:p-6 space-y-4"><h3 class="panel-title"><i class="fa-solid fa-receipt text-teal-600"></i> Retrieve Prescription by Serial</h3><form id="pharmacy-report-form" class="flex flex-col sm:flex-row gap-3"><input id="pharmacy-report-serial" class="field" required maxlength="30" placeholder="Enter prescription serial"><button class="btn-primary" type="submit">Retrieve Report</button></form><div id="pharmacy-report-result" class="hidden"></div></div>
+      <div class="panel p-5 sm:p-6 space-y-4"><div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3"><h3 class="panel-title"><i class="fa-solid fa-capsules text-teal-600"></i> Pharmacy Catalogue & Stock</h3><input type="search" id="pharmacy-search" class="field sm:max-w-sm" placeholder="Search medicine or usage..."></div><div id="pharmacy-catalog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div></div>
+    </section>
+
+    <footer class="text-center text-xs text-slate-400 py-3">Daktari Hub prototype · Sample data only · Not for real clinical use</footer>
+  </main>
+  <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+  <script src="app.js"></script>
+</body>
+</html>
